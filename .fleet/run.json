@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "go",
+            "name": "myApp",
+            "goExecPath": "C://Users//Arek//go//bin//gopls.exe",
+            "buildParams": [
+                "$PROJECT_DIR$/main.go"
+            ]
+        }  
+    ]
+}
