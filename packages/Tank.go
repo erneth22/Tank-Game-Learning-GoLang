@@ -34,7 +34,7 @@ func (PTank Tank ) DrawTank(posX int32,posY int32 ) {
 	case 65:
 		moveDir = 90
 	case 83:
-		moveDir = 1
+		moveDir = 0
 	}
 	
 	
