@@ -13,11 +13,28 @@ func main() {
 
 	rl.SetTargetFPS(W.RefreshRate)
 
+	var startX int32 = W.Width/2
+	var startY int32 = W.Height/2
+	var direction float32 = 180.0
+
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
-		rl.ClearBackground(rl.DarkGray)
+		rl.ClearBackground(rl.DarkGreen)
+
+		dir := pack.DetermineDirection(direction)
+		if dir == 180 {
+			startY = startY-int32(pack.PTank.Speed)
+		} else if dir == 270 {
+			startX = startX+int32(pack.PTank.Speed)
+		} else if dir == 90 {
+			startX = startX-int32(pack.PTank.Speed)
+		} else if dir == 0 {
+			startY = startY+int32(pack.PTank.Speed)
+		}
 		
-		pack.PTank.DrawTank(900,500)
+		direction = dir // save variable state to prevent overwriting in next frame
+
+		pack.PTank.DrawTank(startX,startY,direction)
 
 		rl.EndDrawing()
 	}

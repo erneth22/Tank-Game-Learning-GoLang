@@ -13,7 +13,7 @@ type Tank struct{
 	Speed uint8
 }
 
-var PTank = Tank{TankColor: rl.Red, BarrelColor: rl.DarkPurple, Size: 50, barrelSizeX: 12,barrelSizeY: 45,Speed: 5}
+var PTank = Tank{TankColor: rl.DarkBrown, BarrelColor: rl.Black, Size: 50, barrelSizeX: 12,barrelSizeY: 45,Speed: 5}
 
 func lastKeyPressed() int {
 	keys := []int{87, 65, 83, 68} // Keys W, A, S, D
@@ -24,24 +24,29 @@ func lastKeyPressed() int {
 	}
 	return 0
 }
-func (PTank Tank ) DrawTank(posX int32,posY int32 ) {
-	var moveDir float32
-    switch lastKeyPressed(){
-	case 87:
-		moveDir = 180
-	case 68:
-		moveDir = 270
-	case 65:
-		moveDir = 90
-	case 83:
-		moveDir = 0
-	}
-	
+
+func DetermineDirection(dir float32) float32 {
+	var moveDir float32 = dir
+    switch lastKeyPressed() {
+    case 87:
+        moveDir = 180 //up
+    case 68:
+        moveDir = 270 //right
+    case 65:
+        moveDir = 90  //left
+    case 83:
+        moveDir = 0   //south
+    }
+	return moveDir
+}
+
+
+func (PTank Tank ) DrawTank(posX int32,posY int32,rotation float32 ) {
 	
 	rl.DrawRectangle(posX, posY, PTank.Size, PTank.Size, PTank.TankColor) //tank mainbody
 	rl.DrawRectanglePro(
 		rl.Rectangle{float32(posX+(PTank.Size/2)),float32(posY+(PTank.Size/2)),float32(PTank.barrelSizeX), float32(PTank.barrelSizeY)},
 		rl.Vector2{float32(PTank.barrelSizeX/2),float32(0)},
-	moveDir,
+		rotation,
 		PTank.BarrelColor)
 }
