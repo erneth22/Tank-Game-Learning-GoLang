@@ -13,28 +13,32 @@ func main() {
 
 	rl.SetTargetFPS(W.RefreshRate)
 
-	var startX int32 = W.Width/2
-	var startY int32 = W.Height/2
+	var posX = W.Width/2
+	var posY = W.Height/2
 	var direction float32 = 180.0
+
+	var offset = pack.PTank.Size+20
+
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
-		rl.ClearBackground(rl.DarkGreen)
+		pack.DrawMap(W.Height,W.Width,offset)
 
 		dir := pack.DetermineDirection(direction)
-		if dir == 180 {
-			startY = startY-int32(pack.PTank.Speed)
-		} else if dir == 270 {
-			startX = startX+int32(pack.PTank.Speed)
-		} else if dir == 90 {
-			startX = startX-int32(pack.PTank.Speed)
-		} else if dir == 0 {
-			startY = startY+int32(pack.PTank.Speed)
+		if dir == 180 && posY > offset {
+	        posY = posY-int32(pack.PTank.Speed)
+		} else if dir == 270 && posX < (W.Width - offset) {
+			posX = posX+int32(pack.PTank.Speed)
+		} else if dir == 90 && posX > offset {
+			posX = posX-int32(pack.PTank.Speed)
+		} else if dir == 0 && posY < (W.Height - offset) {
+			posY = posY+int32(pack.PTank.Speed)
 		}
 		
 		direction = dir // save variable state to prevent overwriting in next frame
 
-		pack.PTank.DrawTank(startX,startY,direction)
+		pack.PTank.DrawTank(posX,posY,direction)
+		pack.PProjectile.SpawnProjectile(posX,posY,direction)
 
 		rl.EndDrawing()
 	}
